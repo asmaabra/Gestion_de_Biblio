@@ -108,8 +108,7 @@ public class Login extends JFrame {
         loginButton.addActionListener(e -> {
             String username = userField.getText();
             char[] password = passwordField.getPassword();
-            // Ici, vous pouvez ajouter la logique de vérification des informations d'identification
-            // Par exemple, si les informations sont incorrectes, affichez un message d'erreur
+            
             if (!isValidCredentials(username, new String(password))) {
                 errorLabel.setText("Nom d'utilisateur ou mot de passe incorrect");
             } else {

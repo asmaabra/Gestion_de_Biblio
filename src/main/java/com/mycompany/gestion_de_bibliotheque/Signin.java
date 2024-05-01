@@ -56,9 +56,9 @@ public  Signin(){
         
 
         setContentPane(contentPane);
-         JPanel contentPane1 = new JPanel();
-         JLabel messageLabel = new JLabel("Entrer vos informations : ");
-       messageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Aligner le texte au centre
+        JPanel contentPane1 = new JPanel();
+        JLabel messageLabel = new JLabel("Entrer vos informations : ");
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Aligner le texte au centre
         messageLabel.setFont(new Font("Arial", Font.BOLD, 15)); // Définir la police et la taille du texte
          
         
@@ -94,8 +94,8 @@ public  Signin(){
         });
 
        
-panel.add( new JLabel());
-panel.add( new JLabel());
+        panel.add( new JLabel());
+        panel.add( new JLabel());
         panel.add(usernameLabel);
         panel.add(usernameField);
         panel.add(emailLabel);
@@ -144,7 +144,7 @@ panel.add( new JLabel());
         contentPane1.add(messageLabel, BorderLayout.CENTER);
 
         contentPane1.add(panel, BorderLayout.CENTER);
-       contentPane1.add( signupLabel, BorderLayout.CENTER);
+        contentPane1.add( signupLabel, BorderLayout.CENTER);
 
 
         contentPane1.setPreferredSize(new Dimension(550, 350)); // Adjust the dimensions as needed
