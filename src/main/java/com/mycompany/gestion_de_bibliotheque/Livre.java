@@ -1,18 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.gestion_de_bibliotheque;
 
-/**
- *
- * @author asma
- */
 public class Livre {
-    private String id_livre;
+    private String idLivre; // Changed variable name to camelCase
     private String titre;
     private String auteur;
-    private boolean disponibilite; // true si le livre est disponible, false sinon
+    private boolean disponibilite; // Changed variable name to camelCase
 
     public Livre(String titre, String auteur, boolean disponibilite) {
         this.titre = titre;
@@ -28,12 +20,11 @@ public class Livre {
         return auteur;
     }
 
-    public boolean isDisponible() {
+    public boolean isDisponible() { // Changed method name to follow convention
         return disponibilite;
     }
 
-    public void setDisponible(boolean disponibilite) {
+    public void setDisponible(boolean disponibilite) { // Changed method name to follow convention
         this.disponibilite = disponibilite;
     }
 }
-
