@@ -1,24 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.gestion_de_bibliotheque;
-
-/**
- *
- * @author asma
- */
- 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Date;
-import java.util.List;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.Date;
 import java.util.List;
 
 public class BiblioPanel extends JPanel {
@@ -57,7 +42,8 @@ public class BiblioPanel extends JPanel {
             for (int row : selectedRows) {
                 Livre livre = livresDisponibles.get(row);
                 // Exemple d'action : emprunter le livre via la bibliothèque
-                bibliotheque.emprunterLivre(livre, new Date(), new Date()); // Exemple de dates d'emprunt et de retour
+                User user = new User("username", "role", "password"); // Example User object
+                bibliotheque.emprunterLivre(livre, user, new Date(), new Date()); // Exemple de dates d'emprunt et de retour
                 // Mettre à jour la disponibilité dans l'interface après emprunt
                 tableModel.removeRow(row);
             }
@@ -68,4 +54,3 @@ public class BiblioPanel extends JPanel {
         add(emprunterButton, BorderLayout.SOUTH);
     }
 }
-
