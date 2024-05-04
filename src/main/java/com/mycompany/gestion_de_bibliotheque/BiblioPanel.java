@@ -17,10 +17,10 @@ public class BiblioPanel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        // Récupération des livres disponibles de la bibliothèque
+        // Retrieve available books from the library
         List<Livre> livresDisponibles = bibliotheque.getLivresDisponibles();
 
-        // Création du tableau avec les données des livres
+        // Create the table with book data
         String[] columnNames = {"Titre", "Auteur"};
         Object[][] rowData = new Object[livresDisponibles.size()][2];
         for (int i = 0; i < livresDisponibles.size(); i++) {
@@ -34,20 +34,20 @@ public class BiblioPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(livresTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Bouton Emprunter
+        // Borrow button
         emprunterButton = new JButton("Emprunter");
         emprunterButton.addActionListener(e -> {
-            // Récupérer les livres sélectionnés
+            // Retrieve selected books
             int[] selectedRows = livresTable.getSelectedRows();
             for (int row : selectedRows) {
                 Livre livre = livresDisponibles.get(row);
-                // Exemple d'action : emprunter le livre via la bibliothèque
-                User user = new User("username", "role", "password"); // Example User object
-                bibliotheque.emprunterLivre(livre, user, new Date(), new Date()); // Exemple de dates d'emprunt et de retour
-                // Mettre à jour la disponibilité dans l'interface après emprunt
+                // Example action: borrow the book via the library
+                User user = new User("username", "role", "password","email"); // Example User object
+                bibliotheque.emprunterLivre(livre, user, new Date(), new Date()); // Example borrow and return dates
+                // Update availability in the interface after borrowing
                 tableModel.removeRow(row);
             }
-            // Exemple : affichage de la date d'emprunt et de retour
+            // Example: display borrow and return dates
             JOptionPane.showMessageDialog(null, "Livres empruntés avec succès !");
         });
 
