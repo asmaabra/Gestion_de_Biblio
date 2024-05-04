@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Login extends JFrame {
     Color lightGreen = new Color(144, 238, 144);
@@ -116,19 +120,72 @@ public class Login extends JFrame {
                 // Ajoutez ici le code pour traiter la connexion réussie
             }
         });
+        loginButton.addActionListener(e -> {
+            String username = userField.getText();
+            char[] password = passwordField.getPassword();
+
+            String role = getUserRole(username, new String(password));
+            if (role != null) {
+                if (role.equals("user")) {
+                    // Redirect to UtilisateurGI class
+                    // You can create an instance of UtilisateurGI and display it here
+                    UtilisateurGI utilisateurGI = new UtilisateurGI();
+                    utilisateurGI.setVisible(true);
+                    dispose(); // Close the login window
+                } else {
+                    // Redirect to another class for other roles, if needed
+                    // For example:
+                    // AdminGI adminGI = new AdminGI();
+                    // adminGI.setVisible(true);
+                }
+            } else {
+                errorLabel.setText("Nom d'utilisateur ou mot de passe incorrect");
+            }
+        });
 
         // Afficher la fenêtre
         setLocationRelativeTo(null); // Centrer la fenêtre
         setVisible(true);
     }
+    private String getUserRole(String nom, String password) {
+    try (Connection conn = Jdbc.getConnection()) {
+        String query = "SELECT role FROM personne WHERE nom = ? AND password = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, nom);
+            statement.setString(2, password);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("role");
+                }
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error retrieving user role: " + e.getMessage());
+    }
+    return null; // Return null if no role is found or an error occurs
+}
+
+
     
  public void display() {
    
         setVisible(true);
     }
     private boolean isValidCredentials(String username, String password) {
-        // Ici, vous pouvez implémenter la logique pour valider les informations d'identification
-        // Par exemple, vous pouvez vérifier dans une base de données si le nom d'utilisateur et le
+    try (Connection conn = Jdbc.getConnection()) {
+        String query = "SELECT * FROM personne WHERE nom = ? AND password = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setString(1, username);
+            statement.setString(2, password);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return resultSet.next(); // If a row is returned, the credentials are valid
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error validating credentials: " + e.getMessage());
         return false;
     }
 }
+
+}
+
