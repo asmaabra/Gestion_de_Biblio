@@ -1,20 +1,9 @@
 package com.mycompany.gestion_de_bibliotheque;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author asma
- */
-
-
 import java.util.Date;
 
 public class Emprunt {
-    private String id_emp;
+    private String id_emp; // Assuming this is the ID of the Emprunt
     private Livre livre;
     private Date dateEmprunt;
     private Date dateRetour;
@@ -36,4 +25,7 @@ public class Emprunt {
     public Date getDateRetour() {
         return dateRetour;
     }
+
+    // You may want to add setters for id_emp, livre, dateEmprunt, and dateRetour if you intend to modify them later.
+    // Otherwise, if these values are set only once upon object creation, you can leave out the setters.
 }
