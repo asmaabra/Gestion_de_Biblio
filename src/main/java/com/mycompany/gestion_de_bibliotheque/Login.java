@@ -118,6 +118,9 @@ public class Login extends JFrame {
                 errorLabel.setText("");
                 String role = getUserRole(username, password);
                 if (role != null) {
+                    Personne connectedUser = Jdbc.getUserByUsername(username);
+                    Session.getInstance().setConnectedUser(connectedUser);
+                    System.out.println(connectedUser.getId());
                     if (role.equals("user")) {
                         UtilisateurGI utilisateurGI = new UtilisateurGI(username);
                         utilisateurGI.setVisible(true);
