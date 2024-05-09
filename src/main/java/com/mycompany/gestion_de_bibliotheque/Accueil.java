@@ -81,20 +81,7 @@ public class Accueil extends JFrame {
         });
      
      
-     // Créer un bouton pour l'inscription
-JButton signupButton = new JButton("S'inscrire");
 
-
-signupButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Changer le curseur en main lorsqu'il survole le bouton
-signupButton.setBounds(350, 350, 100, 40); // Position et taille du bouton
-contentPane.add(signupButton);
-
-// Ajouter un gestionnaire d'événements pour le clic sur le bouton d'inscription
-signupButton.addActionListener(e -> {
-    // Ajoutez ici le code pour l'inscription, comme l'ouverture d'une fenêtre d'inscription
-    // ou la redirection vers une page d'inscription
-    System.out.println("Clic sur le bouton Inscription");
-});
 
         // Définir le panneau comme contenu de la fenêtre
         setContentPane(contentPane);
