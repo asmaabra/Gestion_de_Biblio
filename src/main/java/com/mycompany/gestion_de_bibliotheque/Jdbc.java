@@ -31,6 +31,28 @@ public class Jdbc {
         }
         return conn;
     }
+    public static Personne getUserByUsername(String username) {
+        Personne user = null;
+        try (Connection conn = getConnection()) {
+            String query = "SELECT * FROM personne WHERE nom = ?";
+            try (PreparedStatement statement = conn.prepareStatement(query)) {
+                statement.setString(1, username);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int id = resultSet.getInt("personne_id");
+                        String name = resultSet.getString("nom");
+                        String email = resultSet.getString("email");
+                        String password = resultSet.getString("password");
+                        String role = resultSet.getString("role");
 
+                        user = new Personne(id,name, email, password, role);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Gérer l'exception de manière appropriée
+        }
+        return user;
+    }
 
 }
