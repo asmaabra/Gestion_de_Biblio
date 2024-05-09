@@ -1,16 +1,27 @@
 package com.mycompany.gestion_de_bibliotheque;
 
 public class Personne {
+    private int id_personne;
     private String nom;
     private String password;
     private String role;
     String email;
 
-    public Personne(String nom, String email, String password, String role) {
+    public Personne(int id_personne,String nom, String email, String password, String role) {
+        this.id_personne= id_personne;
+
         this.nom = nom;
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+    
+    public int getId() {
+        return id_personne;
+    }
+
+    public void setId(int id_personne) {
+        this.id_personne = id_personne;
     }
 
     public void setNom(String nom) {
