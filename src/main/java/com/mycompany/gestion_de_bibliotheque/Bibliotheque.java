@@ -45,4 +45,16 @@ public class Bibliotheque {
         livre.setDisponible(false);
         emprunts.add(new Emprunt(livre, dateEmprunt, dateRetour));
     }
+    public List<Livre> getCatalogue() {
+        return catalogue;
+    }
+
+    public List<Emprunt> getEmprunts() {
+        return emprunts;
+    }
+
+    public List<User> getUtilisateurs() {
+        return utilisateurs;
+    }
+    
 }
