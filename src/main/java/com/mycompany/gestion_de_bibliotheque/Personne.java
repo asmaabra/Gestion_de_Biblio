@@ -1,27 +1,44 @@
 package com.mycompany.gestion_de_bibliotheque;
 
 public class Personne {
-    private int id_personne;
+    private int id;
     private String nom;
+    private String email;
     private String password;
     private String role;
-    String email;
 
-    public Personne(int id_personne,String nom, String email, String password, String role) {
-        this.id_personne= id_personne;
-
+    public Personne(String nom, String email, String password, String role) {
         this.nom = nom;
         this.email = email;
         this.password = password;
         this.role = role;
     }
-    
-    public int getId() {
-        return id_personne;
+      public Personne(String nom, String email, String role) {
+        this.nom = nom;
+        this.email = email;
+       
+        this.role = role;
+    }
+    public Personne(int id,String nom, String email, String password, String role) {
+        this.id=id;
+        this.nom = nom;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
-    public void setId(int id_personne) {
-        this.id_personne = id_personne;
+    // Getter and setter methods for nom, email, password, and role
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
     }
 
     public void setNom(String nom) {
@@ -32,13 +49,12 @@ public class Personne {
         this.email = email;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-
-    public String getNom() {
-        return nom;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getEmail() {
@@ -51,9 +67,5 @@ public class Personne {
 
     public String getRole() {
         return role;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
