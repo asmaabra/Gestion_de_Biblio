@@ -108,47 +108,27 @@ public class Login extends JFrame {
 
         contentPane.add(contentPane1, BorderLayout.CENTER);
 
-        // Ajouter un gestionnaire d'événements pour le clic sur le bouton de connexion
-   /*     loginButton.addActionListener(e -> {
-            String username = userField.getText();
-            char[] password = passwordField.getPassword();
-            
-            if (!isValidCredentials(username, new String(password))) {
-                errorLabel.setText("Nom d'utilisateur ou mot de passe incorrect");
-            } else {
-                errorLabel.setText(""); // Effacer le message d'erreur s'il est déjà affiché
-                // Ajoutez ici le code pour traiter la connexion réussie
-                // Display the ProfilPanel
-
-            }
-        });*/
         loginButton.addActionListener(e -> {
             String username = userField.getText();
-            char[] password = passwordField.getPassword();
+            String password = new String(passwordField.getPassword());
 
-            String role = getUserRole(username, new String(password));
-            if (role != null) {
-                if (role.equals("user")) {
-             Personne connectedUser = Jdbc.getUserByUsername(username);
-             Session.getInstance().setConnectedUser(connectedUser);
-                         System.out.println(connectedUser.getId());
-
- // Récupère les détails de l'utilisateur depuis la base de donnée
-
-                    // Redirect to UtilisateurGI class
-                    // You can create an instance of UtilisateurGI and display it here
-                UtilisateurGI utilisateurGI = new UtilisateurGI(username);
-                    utilisateurGI.setVisible(true);
-                    
-                    dispose(); // Close the login window
-                } else {
-                    // Redirect to another class for other roles, if needed
-                    // For example:
-                    // AdminGI adminGI = new AdminGI();
-                    // adminGI.setVisible(true);
-                }
-            } else {
+            if (!isValidCredentials(username, password)) {
                 errorLabel.setText("Nom d'utilisateur ou mot de passe incorrect");
+            } else {
+                errorLabel.setText("");
+                String role = getUserRole(username, password);
+                if (role != null) {
+                    if (role.equals("user")) {
+                        UtilisateurGI utilisateurGI = new UtilisateurGI(username);
+                        utilisateurGI.setVisible(true);
+                        dispose();
+                    } else if (role.equals("admin")){
+                     Principal Principal = new Principal();
+                        Principal.setVisible(true);
+                        dispose();                    }
+                } else {
+                    errorLabel.setText("Nom d'utilisateur ou mot de passe incorrect");
+                }
             }
         });
 
