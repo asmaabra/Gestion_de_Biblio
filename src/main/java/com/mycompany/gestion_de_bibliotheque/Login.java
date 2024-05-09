@@ -109,7 +109,7 @@ public class Login extends JFrame {
         contentPane.add(contentPane1, BorderLayout.CENTER);
 
         // Ajouter un gestionnaire d'événements pour le clic sur le bouton de connexion
-        loginButton.addActionListener(e -> {
+   /*     loginButton.addActionListener(e -> {
             String username = userField.getText();
             char[] password = passwordField.getPassword();
             
@@ -118,8 +118,10 @@ public class Login extends JFrame {
             } else {
                 errorLabel.setText(""); // Effacer le message d'erreur s'il est déjà affiché
                 // Ajoutez ici le code pour traiter la connexion réussie
+                // Display the ProfilPanel
+
             }
-        });
+        });*/
         loginButton.addActionListener(e -> {
             String username = userField.getText();
             char[] password = passwordField.getPassword();
@@ -127,10 +129,17 @@ public class Login extends JFrame {
             String role = getUserRole(username, new String(password));
             if (role != null) {
                 if (role.equals("user")) {
+             Personne connectedUser = Jdbc.getUserByUsername(username);
+             Session.getInstance().setConnectedUser(connectedUser);
+                         System.out.println(connectedUser.getId());
+
+ // Récupère les détails de l'utilisateur depuis la base de donnée
+
                     // Redirect to UtilisateurGI class
                     // You can create an instance of UtilisateurGI and display it here
-                    UtilisateurGI utilisateurGI = new UtilisateurGI();
+                UtilisateurGI utilisateurGI = new UtilisateurGI(username);
                     utilisateurGI.setVisible(true);
+                    
                     dispose(); // Close the login window
                 } else {
                     // Redirect to another class for other roles, if needed
