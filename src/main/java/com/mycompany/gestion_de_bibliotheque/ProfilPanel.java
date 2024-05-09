@@ -1,47 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.gestion_de_bibliotheque;
-
-/**
- *
- * @author asma
- */
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-
-
 
 public class ProfilPanel extends JPanel {
     private JTextField nameField;
     private JPasswordField passwordField;
     private JTextField emailField;
     private JButton saveButton;
-    private JButton logoutButton;
-     private Personne connectedUser; 
+    private Personne connectedUser;
 
-    public ProfilPanel(String username) {
-        this.connectedUser = Session.getInstance().getConnectedUser(); // Récupération de l'utilisateur connecté depuis Session
+    public ProfilPanel(Personne user) {
+        this.connectedUser = user;
 
         setLayout(new BorderLayout());
 
-        // User profile information panel
+        // Panneau d'informations du profil utilisateur
         JPanel profileInfoPanel = new JPanel(new GridLayout(4, 2));
-        JLabel nameLabel = new JLabel("Name:");
-        nameField = new JTextField(20);
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordField = new JPasswordField(20);
+        JLabel nameLabel = new JLabel("Nom:");
+        nameField = new JTextField(connectedUser.getNom(), 20);
+        JLabel passwordLabel = new JLabel("Mot de passe:");
+        passwordField = new JPasswordField(connectedUser.getPassword(), 20);
         JLabel emailLabel = new JLabel("Email:");
-        emailField = new JTextField(20);
-        saveButton = new JButton("Save");
+        emailField = new JTextField(connectedUser.getEmail(), 20);
+        saveButton = new JButton("Enregistrer");
 
         profileInfoPanel.add(nameLabel);
         profileInfoPanel.add(nameField);
@@ -49,50 +35,47 @@ public class ProfilPanel extends JPanel {
         profileInfoPanel.add(passwordField);
         profileInfoPanel.add(emailLabel);
         profileInfoPanel.add(emailField);
-        profileInfoPanel.add(new JLabel()); // Placeholder for spacing
+        profileInfoPanel.add(new JLabel()); // Espacement
         profileInfoPanel.add(saveButton);
-        
 
         add(profileInfoPanel, BorderLayout.NORTH);
-        // Add action listeners for buttons
+
+        // Ajouter un écouteur d'événements pour le bouton Enregistrer
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Save profile changes
-               int id= connectedUser.getId();
+                // Enregistrer les modifications du profil
                 String newName = nameField.getText();
                 String newPassword = new String(passwordField.getPassword());
                 String newEmail = emailField.getText();
-                boolean userModifiee = modifierUser(id,newName,newPassword,newEmail); // Modifie la disponibilité du livre
-                System.out.println(id +"    "+userModifiee);
+                boolean userModified = modifierUser(connectedUser.getId(), newName, newPassword, newEmail);
 
-
-                // Update profile in the database or perform necessary actions
-                JOptionPane.showMessageDialog(ProfilPanel.this, "Profile saved successfully!");
+                if (userModified) {
+                    JOptionPane.showMessageDialog(ProfilPanel.this, "Profil enregistré avec succès!");
+                } else {
+                    JOptionPane.showMessageDialog(ProfilPanel.this, "Erreur lors de l'enregistrement du profil!", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-
-   
     }
-     private boolean modifierUser(int id ,String nom,String password,String email) {
-    try (Connection conn = Jdbc.getConnection()) {
-       
-    
-        String query = "UPDATE personne SET nom=? , password=? , email=? WHERE personne_id = ?";
-        try (PreparedStatement statement = conn.prepareStatement(query)) {
-            statement.setString(1,nom);
-            statement.setString(2,password);
-            statement.setString(3,email);
-            statement.setInt(4,id);
-            int rowsUpdated = statement.executeUpdate();
-            return rowsUpdated > 0;
-        }
-    } catch (SQLException ex) {
-        System.out.println("Error updating users : " + ex.getMessage());
-        return false;
-    }
-} 
-    
-        }
-    
 
+    // Méthode pour modifier les informations de l'utilisateur
+    private boolean modifierUser(int id, String nom, String password, String email) {
+        // Implémentez votre méthode pour mettre à jour les informations de l'utilisateur dans la base de données
+        // Ici, nous supposons que vous utilisez une classe de connexion à la base de données nommée Jdbc
+        try (Connection conn = Jdbc.getConnection()) {
+            String query = "UPDATE personne SET nom=?, password=?, email=? WHERE personne_id=?";
+            try (PreparedStatement statement = conn.prepareStatement(query)) {
+                statement.setString(1, nom);
+                statement.setString(2, password);
+                statement.setString(3, email);
+                statement.setInt(4, id);
+                int rowsUpdated = statement.executeUpdate();
+                return rowsUpdated > 0;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erreur lors de la mise à jour de l'utilisateur : " + ex.getMessage());
+            return false;
+        }
+    }
+}
