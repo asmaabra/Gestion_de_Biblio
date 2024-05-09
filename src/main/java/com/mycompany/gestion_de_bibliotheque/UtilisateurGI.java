@@ -44,21 +44,34 @@ public class UtilisateurGI extends JFrame {
         // Main Content
         mainPanel = new JPanel();
         mainPanel.setBackground(Color.WHITE);
-        JLabel welcomeLabel = new JLabel("Bienvenue sur votre tableau de bord !");
+        JLabel welcomeLabel = new JLabel(username+"  Bienvenue sur votre tableau de bord !");
         mainPanel.add(welcomeLabel);
 
         // Écouteurs de boutons pour Bibliothèque, Mes Livres, Mon Profil, Déconnecter
         libraryButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-           
-                Bibliotheque bibliotheque = new Bibliotheque(); // Création de la bibliothèque
-                BiblioPanel biblioPanel = new BiblioPanel(bibliotheque); 
-                mainPanel.removeAll();
-                mainPanel.add(biblioPanel);
-                mainPanel.revalidate();
-                mainPanel.repaint();
-            }
+             // Fetch the list of books from the database
+                try (Connection connection = Jdbc.getConnection()) {
+                    LivreDAO livreDAO = new LivreDAO(connection);
+                    List<Livre> livres = livreDAO.getAllLivres();
+
+                    // Create a Bibliotheque object with the list of books
+                    Bibliotheque bibliotheque = new Bibliotheque();
+                    for (Livre livre : livres) {
+                        bibliotheque.ajouterLivre(livre);
+                    }
+
+                    // Create a BiblioPanel with the Bibliotheque object
+                    BiblioPanel biblioPanel = new BiblioPanel(bibliotheque);
+
+                    // Update the main panel
+                    mainPanel.removeAll();
+                    mainPanel.add(biblioPanel);
+                    mainPanel.revalidate();
+                    mainPanel.repaint();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error fetching books from the database: " + ex.getMessage());
+                }
         });
 
         myBooksButton.addActionListener(new ActionListener() {
